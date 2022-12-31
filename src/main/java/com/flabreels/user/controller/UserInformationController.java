@@ -42,8 +42,6 @@ public class UserInformationController {
         }catch (DynamoDbException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-
     }
 
     /**

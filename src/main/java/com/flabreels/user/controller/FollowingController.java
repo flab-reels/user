@@ -37,6 +37,7 @@ public class FollowingController {
             userRepository.addFollowing(UserAddFollowingRequestDto.builder().userId(userId).followingId(followingId).build());
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (DynamoDbException e){
+            log.info(e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -50,6 +51,7 @@ public class FollowingController {
         try {
             return ResponseEntity.ok(userRepository.findFollowedByFollowingId(UserQuery.builder().followingId(request.getHeader("id")).build()));
         }catch (DynamoDbException e){
+            log.info(e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
