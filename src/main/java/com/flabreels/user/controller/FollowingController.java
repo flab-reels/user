@@ -38,6 +38,12 @@ public class FollowingController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+
+    /**
+     * HEADER => id
+     * PARAM => followingId
+     */
     @DeleteMapping ("/following")
     public ResponseEntity<UserAddFollowingRequestDto> removeFollowing(HttpServletRequest request){
         String userId = request.getHeader("id");
