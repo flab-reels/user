@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserInformationController {
 
     private final UserRepository userRepository;
@@ -24,7 +24,7 @@ public class UserInformationController {
      * HEADER => id, picture
      * PARAM => introduce,name
      */
-    @PostMapping("/save")
+    @PostMapping("/information")
     public ResponseEntity<UserInformationRequestDto> saveUserInformation(HttpServletRequest request){
         String userId = request.getHeader("id");
         String userProfile = request.getHeader("picture");
@@ -37,12 +37,37 @@ public class UserInformationController {
                 .userIntroduce(userIntroduce)
                 .build();
         try {
-            userRepository.addUserInformation(userInformationRequestDto.toEntity());
+            userRepository.addUserInformation(userInformationRequestDto);
             return ResponseEntity.ok(userInformationRequestDto);
         }catch (DynamoDbException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
     }
+
+    /**
+     * HEADER => id, picture
+     * PARAM => introduce,name
+     */
+    @PutMapping("/information")
+    public ResponseEntity<UserInformationRequestDto> updateUserInformation(HttpServletRequest request){
+        String userId = request.getHeader("id");
+        String userProfile = request.getHeader("picture");
+        String userIntroduce = request.getParameter("introduce");
+        String username = request.getParameter("name");
+        UserInformationRequestDto userInformationRequestDto = UserInformationRequestDto.builder()
+                .userId(userId)
+                .userProfile(userProfile)
+                .username(username)
+                .userIntroduce(userIntroduce)
+                .build();
+        try {
+            userRepository.updateUserInformation(userInformationRequestDto);
+            return ResponseEntity.ok(userInformationRequestDto);
+        }catch (DynamoDbException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+    }
+
 
     /**
      * PARAM => id
@@ -58,6 +83,8 @@ public class UserInformationController {
         }
 
     }
+
+
 
 
 }
