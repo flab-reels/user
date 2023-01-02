@@ -64,7 +64,9 @@ public class UserRepository {
 
 
     public void addFollowing(UserAddFollowingRequestDto userAddFollowingRequestDto) throws DynamoDbException{
-        dynamoDbTable.putItem(userAddFollowingRequestDto.toEntity());
+        if ((long) findFollowingByUserId(UserQuery.builder().followingId(userAddFollowingRequestDto.getFollowingId()).build()).size() == 0){
+            dynamoDbTable.putItem(userAddFollowingRequestDto.toEntity());
+        }
     }
 
     public void removeFollowing(UserAddFollowingRequestDto userAddFollowingRequestDto)throws DynamoDbException {

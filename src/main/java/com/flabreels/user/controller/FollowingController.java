@@ -47,7 +47,7 @@ public class FollowingController {
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (DynamoDbException e){
             log.info(e.getLocalizedMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
