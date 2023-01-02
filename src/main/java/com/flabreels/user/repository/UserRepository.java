@@ -5,6 +5,7 @@ import com.flabreels.user.domain.entity.User;
 import com.flabreels.user.dto.following.UserAddFollowingRequestDto;
 import com.flabreels.user.dto.following.UserFollowedListResponseDto;
 import com.flabreels.user.dto.following.UserFollowingListResponseDto;
+import com.flabreels.user.dto.information.UserInformationRequestDto;
 import com.flabreels.user.dto.information.UserInformationResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -36,8 +37,11 @@ public class UserRepository {
         this.followingIdIndex = dynamoDbTable.index("followingId");
     }
 
-    public void addUserInformation(User user) throws DynamoDbException{
-        dynamoDbTable.putItem(user);
+    public void addUserInformation(UserInformationRequestDto userInformationRequestDto) throws DynamoDbException{
+        dynamoDbTable.putItem(userInformationRequestDto.toEntity());
+    }
+    public void updateUserInformation(UserInformationRequestDto userInformationRequestDto) throws DynamoDbException{
+        dynamoDbTable.updateItem(userInformationRequestDto.toEntity());
     }
 
 
@@ -63,6 +67,9 @@ public class UserRepository {
         dynamoDbTable.putItem(userAddFollowingRequestDto.toEntity());
     }
 
+    public void removeFollowing(UserAddFollowingRequestDto userAddFollowingRequestDto)throws DynamoDbException {
+        dynamoDbTable.deleteItem(userAddFollowingRequestDto.toEntity());
+    }
     public List<UserFollowedListResponseDto> findFollowedByFollowingId(UserQuery query) throws DynamoDbException{
         QueryEnhancedRequest queryEnhancedRequest = QueryEnhancedRequest.builder()
                 .queryConditional(QueryConditional.keyEqualTo(Key.builder()

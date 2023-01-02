@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class FollowingController {
 
@@ -29,7 +26,7 @@ public class FollowingController {
      * HEADER => id
      * PARAM => followingId
      */
-    @PostMapping("/add")
+    @PostMapping("/following")
     public ResponseEntity<UserAddFollowingRequestDto> addFollowing(HttpServletRequest request){
         String userId = request.getHeader("id");
         String followingId = request.getParameter("followingId");
@@ -41,7 +38,18 @@ public class FollowingController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-
+    @DeleteMapping ("/following")
+    public ResponseEntity<UserAddFollowingRequestDto> removeFollowing(HttpServletRequest request){
+        String userId = request.getHeader("id");
+        String followingId = request.getParameter("followingId");
+        try{
+            userRepository.removeFollowing(UserAddFollowingRequestDto.builder().userId(userId).followingId(followingId).build());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (DynamoDbException e){
+            log.info(e.getLocalizedMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /**
      * Header => id
