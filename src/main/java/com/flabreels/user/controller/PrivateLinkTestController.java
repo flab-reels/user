@@ -12,7 +12,7 @@ public class PrivateLinkTestController {
 
     @GetMapping("/link1")
     public ResponseEntity<String> privateLinkTest1(){
-        String baseUrl = "vpce-06f2cf0a00f9ea8b8-wd6a542h.vpce-svc-0cb8c427fdce5f747.ap-northeast-2.vpce.amazonaws.com/privatelink?privatelink=godol";
+        String baseUrl = "vpce-0bbc96f73f8c47f09-7j37k9rk.vpce-svc-0cb8c427fdce5f747.ap-northeast-2.vpce.amazonaws.com/privatelink?privatelink=godol";
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForEntity(baseUrl,String.class);
     }
