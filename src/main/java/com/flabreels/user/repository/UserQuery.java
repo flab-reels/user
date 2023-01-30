@@ -21,7 +21,6 @@ public class UserQuery {
     private final String username;
 
     /**
-     *
      * RDS와 다르게 DynamoDB는 페이징이 불가능하기 때문에 마지막으로 읽었던 키를 전달하여 다음데이터를 얻어오는식으로 사용되야한다.
      * 그 값을 사용하기 위해서는 존재하는 PartitionKey를 사용하면 된다. 물론 SortKey로 사용하면 되지만 만약 SortKey가 변동이 심하다면
      * 페이징 기능을 사용할 수 없기때문에 PartitionKey를 사용하면 된다.

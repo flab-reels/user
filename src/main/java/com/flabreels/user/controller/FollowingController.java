@@ -31,8 +31,12 @@ public class FollowingController {
         String userId = request.getHeader("id");
         String followingId = request.getParameter("followingId");
         try{
-            userRepository.addFollowing(UserAddFollowingRequestDto.builder().userId(userId).followingId(followingId).build());
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            boolean existedFollowingUser = userRepository.addFollowing(UserAddFollowingRequestDto.builder().userId(userId).followingId(followingId).build());
+            if (existedFollowingUser){
+                return new ResponseEntity<>(HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
         }catch (DynamoDbException e){
             log.info(e.getLocalizedMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
