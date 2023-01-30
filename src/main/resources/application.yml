@@ -1,21 +1,21 @@
-spring:
-  profiles:
-    include: credential
+#spring:
+#  profiles:
+#    include: credential
 
 server:
   port: 8081
-#aws:
-#  region: "ap-northeast-2"
-#  dynamodb:
-#    endpoint: ${dynamodbEndpoint}
-#    accessKey: ${awsAccessKey}
-#    secretKey: ${awsSecretKey}
-#management:
-#  endpoints:
-#    web:
-#      base-path: /
-#      path-mapping:
-#        health: /
+aws:
+  region: "ap-northeast-2"
+  dynamodb:
+    endpoint: ${dynamodbEndpoint}
+    accessKey: ${awsAccessKey}
+    secretKey: ${awsSecretKey}
+management:
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: /
 
 
 
